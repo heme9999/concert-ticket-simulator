@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://concert-ticket-simulator.pages.dev/sitemap.xml

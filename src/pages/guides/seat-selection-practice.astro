@@ -1,0 +1,84 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'Seat Selection Practice: Budgets, Aisles & Backups';
+const description =
+  'Learn practical strategies for spotting connected concert seats, avoiding center-aisle split traps, setting virtual budgets, and pivoting under time pressure.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/guides/seat-selection-practice/"
+>
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="mb-4 text-xs font-semibold text-slate-500">
+      <a href="/" class="hover:text-slate-900">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-900">Seat Selection Strategy</span>
+    </nav>
+
+    <h1 class="display-h1 text-slate-950">
+      Seat Selection Practice: How to Master Budgets, Adjacent Seats &amp; Backup Zones
+    </h1>
+    <p class="mt-4 text-base leading-relaxed text-slate-700">
+      Most wasted seconds on an interactive seat map happen when shoppers recalculate totals on the fly or click seats that look neighboring until you notice a walkway aisle in between. A structured pre-sale mental checklist eliminates hesitation.
+    </p>
+
+    <section class="mt-8 space-y-4">
+      <h2 class="section-h2 text-slate-950">1. Why Seat 4 and Seat 5 Are Often Not Adjacent</h2>
+      <p class="text-sm leading-relaxed text-slate-700 sm:text-base">
+        Numbered seats frequently run consecutively across a walkway aisle. Even though Seat 4 and Seat 5 differ by 1, a physical aisle sits between them. In StageDrill, every row splits into a left block (Seats 1–4) and a right block (Seats 5–8) separated by a clearly marked <strong>AISLE</strong> corridor:
+      </p>
+
+      <div class="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-center text-xs font-bold text-slate-200">
+        <div class="mx-auto flex max-w-lg items-center justify-center gap-1.5">
+          <span class="rounded bg-sky-900 px-2.5 py-2">S1</span>
+          <span class="rounded bg-sky-900 px-2.5 py-2">S2</span>
+          <span class="rounded bg-sky-900 px-2.5 py-2">S3</span>
+          <span class="rounded border border-amber-400 bg-sky-900 px-2.5 py-2">S4</span>
+          <span class="mx-2 rounded border border-dashed border-slate-500 px-2.5 py-2 text-slate-400">AISLE</span>
+          <span class="rounded border border-amber-400 bg-sky-900 px-2.5 py-2">S5</span>
+          <span class="rounded bg-sky-900 px-2.5 py-2">S6</span>
+          <span class="rounded bg-sky-900 px-2.5 py-2">S7</span>
+          <span class="rounded bg-sky-900 px-2.5 py-2">S8</span>
+        </div>
+        <p class="mt-3 text-xs font-normal text-slate-400">
+          Valid 4-seat runs: S1–S4 or S5–S8. Selecting S3–S6 crosses the walkway and fails adjacency.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">2. Lock Your All-In Per-Ticket Cap First</h2>
+      <p>
+        Before an arena map opens, convert your group total into a firm per-ticket maximum (for example, $560 for 4 tickets = $140/seat). On StageDrill, seats priced above your per-ticket limit display a dashed amber outline and <code>$!</code> badge so you can train your eye to skip unaffordable tiers immediately.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">3. Carry One Primary Zone and Two Backup Zones</h2>
+      <p>
+        When primary floor or lower-bowl rows sell through mid-selection, deciding where to look next eats 10–15 seconds. Always name a lower-cost backup section before clicking. In our <strong>Live Scramble</strong> mode, Wave 1 tightens your preferred section while keeping a guaranteed backup block open so you can practice zero-hesitation pivots.
+      </p>
+    </section>
+
+    <section class="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
+      <h2 class="text-lg font-extrabold text-slate-950">Put Strategy Into Practice</h2>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="/practice/?mode=quick&difficulty=hard&seed=arena-101"
+          class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-indigo-500"
+        >
+          Try Hard Quick Pick →
+        </a>
+        <a
+          href="/guides/ticketmaster-training/"
+          class="rounded-xl border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
+        >
+          Read Training Scope Guide
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

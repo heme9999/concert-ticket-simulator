@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SimulatorApp } from '@/components/SimulatorApp';
+import { SEED_PRESETS, SITE } from '@/config/site';
+import { buildPracticePath } from '@/lib/prng';
+
+const title = 'Seat Selection Practice Arena & Seed Drills | StageDrill';
+const description =
+  'Run replayable concert seat selection drills with custom seeds, difficulty clocks, keyboard navigation, and mobile zoom. Try a practice scenario now.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${SITE.brandName} Practice Arena`,
+  url: `${SITE.baseUrl}/practice/`,
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  description,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/practice/"
+  structuredData={schema}
+>
+  <section class="bg-slate-950 pb-10 pt-6 text-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <nav aria-label="Breadcrumb" class="mb-3 text-xs text-slate-400">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-1.5">/</span>
+        <span class="text-slate-200">Practice Arena</span>
+      </nav>
+
+      <h1 class="display-h1 text-white">Concert Seat Selection Practice Arena</h1>
+      <p class="mt-2 max-w-2xl text-sm text-slate-300">
+        Shareable drill workspace. Mode, difficulty, and deterministic seed parameters in the URL load directly without generating duplicate indexable pages.
+      </p>
+
+      <div class="mt-5">
+        <SimulatorApp client:load compactHeader={false} />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <h2 class="section-h2 text-slate-950">Preset Replayable Drills</h2>
+    <p class="mt-2 text-sm text-slate-600">
+      Jump directly into a curated seed to practice specific scenarios or compare timings with friends.
+    </p>
+
+    <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {SEED_PRESETS.map((preset) => (
+        <a
+          href={buildPracticePath({
+            mode: preset.mode,
+            difficulty: preset.difficulty,
+            seed: preset.seed,
+          })}
+          class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-indigo-400"
+        >
+          <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-indigo-600">
+            <span>{preset.mode} · {preset.difficulty}</span>
+            <code class="font-mono text-slate-500">{preset.seed}</code>
+          </div>
+          <h3 class="mt-2 text-base font-bold text-slate-950">{preset.title}</h3>
+          <p class="mt-1 text-sm text-slate-600">{preset.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

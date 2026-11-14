@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+:root {
+  --arena-bg: #0b0e17;
+  --arena-surface: #131928;
+  --arena-chrome: rgba(16, 22, 36, 0.82);
+  --arena-border: rgba(255, 255, 255, 0.14);
+  --paper-bg: #f8fafc;
+  --paper-card: #ffffff;
+  --ink-primary: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #64748b;
+  --accent-indigo: #4f46e5;
+  --accent-cyan: #0ea5e9;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+
+  /* Apple-inspired snappy spring curve approximated with CSS linear() */
+  --spring-snappy: linear(
+    0, 0.008 1%, 0.032 2%, 0.122 4%, 0.489 9%, 0.785 15%,
+    0.928 21%, 0.985 27%, 1.003 34%, 1.004 45%, 1.001 60%, 1
+  );
+  --spring-bounce: linear(
+    0, 0.015 1%, 0.06 2%, 0.22 4%, 0.82 10%, 1.06 16%,
+    1.09 20%, 1.02 28%, 0.99 38%, 1.002 52%, 1
+  );
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  line-height: 1.55;
+  color: var(--ink-primary);
+  background-color: var(--paper-bg);
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+
+/* Display typography scale: tight leading + negative tracking for large headings */
+.display-h1 {
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-optical-sizing: auto;
+}
+
+.section-h2 {
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 750;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Translucent floating HUD chrome */
+.glass-hud {
+  background: var(--arena-chrome);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--arena-border);
+}
+
+/* Instant pointer-down response (kill latency) */
+.pressable {
+  transition: transform 0.32s ease-out, background-color 0.16s ease, border-color 0.16s ease;
+  transition-timing-function: var(--spring-snappy);
+}
+
+@supports not (transition-timing-function: linear(0, 1)) {
+  .pressable {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.16s ease, border-color 0.16s ease;
+  }
+}
+
+.pressable:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(0.96);
+  transition: transform 90ms ease-out;
+}
+
+/* SVG seat node interaction & focus */
+.seat-node {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.26s ease-out, filter 0.15s ease;
+  transition-timing-function: var(--spring-snappy);
+}
+
+.seat-node:hover:not([aria-disabled="true"]) {
+  filter: brightness(1.16);
+}
+
+.seat-node:active:not([aria-disabled="true"]) {
+  transform: scale(0.92);
+  transition: transform 80ms ease-out;
+}
+
+.seat-node[data-selected="true"] {
+  transform: scale(1.06);
+}
+
+.seat-node:focus-visible {
+  outline: none;
+}
+
+.seat-node:focus-visible .seat-focus-ring {
+  opacity: 1;
+}
+
+.seat-node[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Copy confirmation live-region bubble */
+.copy-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.copy-tip {
+  position: absolute;
+  inset-block-end: calc(100% + 6px);
+  inset-inline-end: 0;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 30;
+}
+
+.copy-button[data-copied] + .copy-tip {
+  opacity: 1;
+  transform: translateY(0);
+  background: #065f46;
+  color: #ecfdf5;
+}
+
+.copy-button[data-failed] + .copy-tip {
+  opacity: 1;
+  transform: translateY(0);
+  background: #9f1239;
+  color: #fff1f2;
+}
+
+/* Reduced transparency accessibility */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-hud {
+    background: #111827;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Reduced motion accessibility + explicit app toggle */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .pressable,
+  .seat-node,
+  .copy-tip {
+    transition: opacity 150ms ease !important;
+    animation: none !important;
+  }
+  .pressable:active,
+  .seat-node:active,
+  .seat-node[data-selected="true"] {
+    transform: none !important;
+  }
+}
+
+[data-reduced-motion="true"] .pressable,
+[data-reduced-motion="true"] .seat-node,
+[data-reduced-motion="true"] .copy-tip,
+[data-reduced-motion="true"] * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 120ms !important;
+}
+
+[data-reduced-motion="true"] .seat-node[data-selected="true"] {
+  transform: none;
+}
+
+/* Native accordion polish */
+details.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}

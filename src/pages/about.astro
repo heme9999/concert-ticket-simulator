@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SITE } from '@/config/site';
+
+const title = 'About StageDrill - Concert Seat Practice Simulator';
+const description =
+  'Learn how StageDrill works, why our independent seat selection trainer uses deterministic virtual venues, and what is and is not simulated.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/about/">
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="mb-4 text-xs font-semibold text-slate-500">
+      <a href="/" class="hover:text-slate-900">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-900">About</span>
+    </nav>
+
+    <h1 class="display-h1 text-slate-950">About {SITE.brandName}</h1>
+    <p class="mt-4 text-base leading-relaxed text-slate-700">
+      {SITE.brandName} is an independent, browser-based seat selection practice simulator built to help concertgoers rehearse reading seating charts, checking virtual budgets, avoiding aisle splits, and reacting smoothly when preferred sections tighten.
+    </p>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">Independent Brand &amp; Fictional Venue Data</h2>
+      <p>
+        Every venue map, section label, seat price, and scramble event inside {SITE.brandName} uses our original fictional layout (<strong>Starlight Civic Arena</strong>). We are not affiliated with, endorsed by, or partnered with Ticketmaster, Live Nation, AXS, SeatGeek, or any venue operator.
+      </p>
+      <p>
+        {SITE.brandName} never connects to real ticketing accounts, real seat inventory, live payment processors, or automated checkout tools, and never claims to improve real-world queue placement or ticket success odds.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">How Drills Work Under the Hood</h2>
+      <ul class="list-disc space-y-2 pl-5">
+        <li>
+          <strong>Deterministic seeds:</strong> Any text seed deterministically generates the same initial availability, target count (1–4 seats), budget cap, and scramble waves so rounds can be replayed.
+        </li>
+        <li>
+          <strong>Guaranteed solvable drills:</strong> The scenario generator reserves at least one valid contiguous seat block on one side of an aisle within your virtual budget across all scramble waves.
+        </li>
+        <li>
+          <strong>Explicit graph adjacency:</strong> Seat pairs across a central aisle (Seat 4 and Seat 5) are disconnected in the adjacency graph and flagged explicitly during review.
+        </li>
+      </ul>
+    </section>
+  </article>
+</BaseLayout>

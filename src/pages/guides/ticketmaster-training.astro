@@ -1,0 +1,116 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'Ticketmaster Training Simulator: Scope & Limits | StageDrill';
+const description =
+  'Understand what a concert ticket simulator can train—map reading, aisle checks, and backup pivots—and what it cannot change in official queues.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/guides/ticketmaster-training/"
+>
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="mb-4 text-xs font-semibold text-slate-500">
+      <a href="/" class="hover:text-slate-900">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-900">Ticketmaster Training Guide</span>
+    </nav>
+
+    <h1 class="display-h1 text-slate-950">
+      Ticketmaster Training Simulator: What Seat Selection Practice Can (and Cannot) Do
+    </h1>
+    <p class="mt-4 text-base leading-relaxed text-slate-700">
+      Fans searching for a ticket buying simulator usually want fewer panicky mistakes during high-demand concert onsales. Being honest about what local map drills actually improve—and what remains completely outside any simulator's control—protects your time and prevents false expectations.
+    </p>
+
+    <section class="mt-8">
+      <h2 class="section-h2 text-slate-950">What Practice Actually Helps vs. What It Cannot Control</h2>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="w-full min-w-[540px] border-collapse text-left text-sm">
+          <thead class="bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-600">
+            <tr>
+              <th class="border-b border-slate-200 px-4 py-3">What Seat Practice Improves</th>
+              <th class="border-b border-slate-200 px-4 py-3">What Practice Cannot Change</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr>
+              <td class="px-4 py-3 text-slate-800">
+                Reading section tiers and virtual price caps quickly under a countdown clock.
+              </td>
+              <td class="px-4 py-3 text-slate-600">
+                Your randomized place when a live Waiting Room transitions into the Smart Queue.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 text-slate-800">
+                Spotting contiguous blocks of 2–4 seats without accidentally crossing an aisle.
+              </td>
+              <td class="px-4 py-3 text-slate-600">
+                Real-time ticket inventory, dynamic pricing tiers, or presale code eligibility.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 text-slate-800">
+                Switching smoothly to a pre-planned backup section when primary seats disappear.
+              </td>
+              <td class="px-4 py-3 text-slate-600">
+                Account security checks, payment authorization speed, or anti-bot verification.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-8 space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">Key Rules From Official Ticketing Help Documentation</h2>
+      <p>
+        According to the{' '}
+        <a
+          href="https://help.ticketmaster.com/"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+          class="font-semibold text-indigo-700 underline"
+        >
+          official Ticketmaster Help Center
+        </a>
+        , several mechanics work very differently from how casual buyers expect:
+      </p>
+      <ul class="list-disc space-y-2 pl-5">
+        <li>
+          <strong>Waiting room timing:</strong> Official waiting rooms typically open 15 to 30 minutes before an onsale starts, and joining earlier inside that window does not buy a lower queue number—everyone in the waiting room is placed into the queue when the sale opens.
+        </li>
+        <li>
+          <strong>Do not manually refresh:</strong> Official guidance emphasizes letting the queue page advance automatically; manual refreshes or opening multiple tabs for the same event sale can trigger session conflicts or bot-protection blocks.
+        </li>
+        <li>
+          <strong>Clicking a seat is not a hold:</strong> Selecting a seat on an interactive map does not reserve it—inventory remains open to other shoppers until you proceed into checkout. That is why StageDrill's <em>Live Scramble</em> mode trains quick backup pivots.
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-10 rounded-2xl border border-indigo-200 bg-indigo-50 p-6">
+      <h2 class="text-lg font-extrabold text-slate-950">Ready to Practice on a Real Scenario?</h2>
+      <p class="mt-1.5 text-sm text-slate-700">
+        Try a <strong>Live Scramble</strong> drill to feel how fast you can abandon a blocked target section and confirm an on-budget backup block.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="/practice/?mode=scramble&difficulty=easy&seed=scramble-204"
+          class="rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-bold text-white hover:bg-slate-800"
+        >
+          Launch Live Scramble Drill →
+        </a>
+        <a
+          href="/guides/seat-selection-practice/"
+          class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
+        >
+          Read Seat Strategy Guide
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

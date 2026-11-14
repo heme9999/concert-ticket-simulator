@@ -1,0 +1,281 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SimulatorApp } from '@/components/SimulatorApp';
+import { SITE } from '@/config/site';
+
+const title = 'Concert Ticket Simulator & Seat Practice | StageDrill';
+const description =
+  'Practice concert seat selection, aisle detection, virtual budget caps, and rapid backup pivoting in our free browser simulator. No sign-up required.';
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: `${SITE.brandName} Concert Ticket & Seat Selection Simulator`,
+  url: `${SITE.baseUrl}/`,
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  description,
+  featureList: [
+    'Interactive 2D SVG concert arena map with 5 fictional sections and aisle boundaries',
+    'Three practice modes: Quick Pick, Live Scramble, and Full Drill',
+    'Deterministic seed replay and shareable drill URLs',
+    'Transparent rule-based practice scoring and local progress history',
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/"
+  structuredData={webAppSchema}
+>
+  <!-- Above-the-Fold Hero + Interactive Simulator -->
+  <section class="bg-slate-950 pb-10 pt-6 text-white sm:pt-8">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-emerald-400">
+            Independent Concert Seat Selection Trainer · Virtual Demo Data
+          </p>
+          <h1 class="display-h1 mt-1 text-white">
+            Concert Ticket &amp; Seat Selection Practice Simulator
+          </h1>
+          <p class="mt-2 max-w-2xl text-sm text-slate-300 sm:text-base">
+            Build calm muscle memory before onsale day: spot adjacent seats, avoid aisle splits, stay under virtual budget, and pivot when sections tighten.
+          </p>
+        </div>
+
+        <div class="flex shrink-0 items-center gap-2 text-xs text-slate-400">
+          <a
+            href="/practice/"
+            class="rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-semibold text-slate-200 hover:bg-white/10"
+          >
+            Open Full Arena →
+          </a>
+        </div>
+      </div>
+
+      <SimulatorApp client:load />
+    </div>
+  </section>
+
+  <!-- Below-the-Fold Editorial Sections (GeFei Landing Page Blueprint) -->
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <h2 class="section-h2 text-slate-950">
+      How to Use This Concert Seat Selection Simulator
+    </h2>
+    <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+      Every drill uses deterministic seeded layouts inside our fictional demo venue (Starlight Civic Arena) so you can replay mistakes or challenge friends on identical maps.
+    </p>
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 1</div>
+        <h3 class="mt-1 text-base font-bold text-slate-950">Pick Mode &amp; Clock</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Choose Quick Pick, Live Scramble, or Full Drill, and select Easy, Hard, or Untimed difficulty.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 2</div>
+        <h3 class="mt-1 text-base font-bold text-slate-950">Read Mission &amp; Budget</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Check the required seat count (1–4), virtual total cap, and target vs. backup sections in the HUD.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 3</div>
+        <h3 class="mt-1 text-base font-bold text-slate-950">Zoom &amp; Select Adjacent Seats</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Tap a section pill to zoom on mobile, stay on one side of the center aisle, and react if seats lock.
+        </p>
+      </article>
+
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600">Step 4</div>
+        <h3 class="mt-1 text-base font-bold text-slate-950">Review Score &amp; Replay Seed</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Confirm to get a 100-point diagnostic breakdown, then replay the exact seed to shave off seconds.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-white py-12">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <h2 class="section-h2 text-slate-950">
+        Three Seat Buying Simulator Modes
+      </h2>
+      <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+        Each mode isolates a distinct part of interactive map navigation so you do not practice blindly.
+      </p>
+
+      <div class="mt-6 overflow-x-auto rounded-2xl border border-slate-200">
+        <table class="w-full min-w-[600px] border-collapse text-left text-sm">
+          <thead class="bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-600">
+            <tr>
+              <th class="border-b border-slate-200 px-4 py-3">Mode</th>
+              <th class="border-b border-slate-200 px-4 py-3">Core Skill Trained</th>
+              <th class="border-b border-slate-200 px-4 py-3">Dynamic Waves</th>
+              <th class="border-b border-slate-200 px-4 py-3">Clock (Easy / Hard)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 bg-white">
+            <tr>
+              <td class="px-4 py-3 font-bold text-slate-950">Quick Pick</td>
+              <td class="px-4 py-3 text-slate-700">Fast visual scanning, budget filtering, aisle avoidance</td>
+              <td class="px-4 py-3 text-slate-600">Static after load</td>
+              <td class="tabular-nums px-4 py-3 text-slate-700">35s / 18s / Untimed</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-bold text-slate-950">Live Scramble</td>
+              <td class="px-4 py-3 text-slate-700">Recovering mid-pick when preferred seats lock &amp; pivoting to backup sections</td>
+              <td class="px-4 py-3 text-slate-600">1–2 demand waves</td>
+              <td class="tabular-nums px-4 py-3 text-slate-700">45s / 22s / Untimed</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-bold text-slate-950">Full Drill</td>
+              <td class="px-4 py-3 text-slate-700">Reading mission targets during handoff &amp; executing cleanly under live shifts</td>
+              <td class="px-4 py-3 text-slate-600">Skippable 3.5s handoff + waves</td>
+              <td class="tabular-nums px-4 py-3 text-slate-700">48s / 24s / Untimed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <h2 class="section-h2 text-slate-950">
+      Who Benefits Most From Seat Selection Practice?
+    </h2>
+    <div class="mt-6 grid gap-4 md:grid-cols-3">
+      <article class="rounded-2xl border border-slate-200 bg-white p-5">
+        <h3 class="text-base font-bold text-slate-950">Group Buyers (3–4 Adjacent Seats)</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          Finding four contiguous seats inside one side of an aisle is far tighter than grabbing singles. Practice spotting contiguous runs and avoiding Seat 4–5 aisle traps before real sales.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-slate-200 bg-white p-5">
+        <h3 class="text-base font-bold text-slate-950">Mobile &amp; Commuter Buyers</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          Tiny pins cause mis-taps on phones. Use section zoom pills to enlarge rows cleanly and confirm total virtual price without obscuring the seat map.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-slate-200 bg-white p-5">
+        <h3 class="text-base font-bold text-slate-950">First-Time Concertgoers</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          Try the Untimed mode first to learn how section pricing tiers, budget limits, and backup zones interact without losing composure when an arena map loads.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="border-t border-slate-200 bg-white py-12">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+      <h2 class="section-h2 text-slate-950">Frequently Asked Questions</h2>
+
+      <div class="mt-6 space-y-3">
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">Does practicing here improve my real Ticketmaster queue position?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            No. StageDrill is an independent offline-style UI practice simulator. Real waiting room placement and queue sorting are controlled solely by official ticketing platforms and cannot be trained or influenced by external tools. Practice only improves your own map scanning speed, budget discipline, and error avoidance once a seat map is open.
+          </p>
+        </details>
+
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">Why did Seats 4 and 5 fail the adjacent check?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            In Starlight Civic Arena, every row has a physical center walkway aisle between Seat 4 and Seat 5. Our explicit adjacency graph checks true seat links rather than raw seat numbers, preventing false consecutive matches across an aisle.
+          </p>
+        </details>
+
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">Is every generated drill guaranteed to be solvable?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            Yes. Before any round starts, the generator reserves at least one valid contiguous seat block within your virtual budget and verifies that scheduled Live Scramble waves never lock every valid backup solution.
+          </p>
+        </details>
+
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">What happens to the timer if I switch browser tabs?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            If the browser tab becomes hidden during an active timed round, StageDrill immediately pauses the monotonic clock and shows a Resume button when you return, preventing background timer throttling from distorting your run.
+          </p>
+        </details>
+
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">Do you connect to any ticketing accounts or collect payment cards?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            Never. StageDrill does not connect to Ticketmaster or any live vendor, requires zero login, and stores no payment information. Only your local settings, practice history, and active drill snapshot are saved in browser localStorage.
+          </p>
+        </details>
+
+        <details class="faq-item rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4" name="faq-group">
+          <summary class="flex items-center justify-between gap-4 font-bold text-slate-950">
+            <h3 class="text-sm sm:text-base">How can I replay or share an exact practice scenario?</h3>
+            <span aria-hidden="true" class="text-lg text-slate-500">+</span>
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-600">
+            Every drill is controlled by a deterministic text seed (for example, <code>arena-101</code>). Click <strong>Share Seed</strong> to copy a direct link to the Practice Arena with your exact mode, difficulty, and seed parameters.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Internal Linking Matrix -->
+  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <h2 class="section-h2 text-slate-950">Related Guides &amp; Practice Pages</h2>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <a
+        href="/guides/ticketmaster-training/"
+        class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-indigo-400"
+      >
+        <h3 class="text-base font-bold text-slate-950">Ticketmaster Training Scope &amp; Limits</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Understand what practice improves (map decisions) vs. what official queue systems control.
+        </p>
+      </a>
+
+      <a
+        href="/guides/seat-selection-practice/"
+        class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-indigo-400"
+      >
+        <h3 class="text-base font-bold text-slate-950">Seat Selection Strategy Guide</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Master virtual budgets, aisle boundaries, group size tradeoffs, and fast backup pivots.
+        </p>
+      </a>
+
+      <a
+        href="/practice/"
+        class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-indigo-400"
+      >
+        <h3 class="text-base font-bold text-slate-950">Replayable Practice Arena</h3>
+        <p class="mt-1.5 text-sm text-slate-600">
+          Launch preset drills and custom seeded challenges in a focused workspace.
+        </p>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
