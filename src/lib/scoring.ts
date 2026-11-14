@@ -23,7 +23,8 @@ export function evaluateRound(input: RoundEvaluationInput): RoundResult {
   const withinBudget = selectedCount > 0 && totalCost <= mission.totalBudget;
 
   const adjCheck = areSeatsAdjacent(selectedSeatIds, DEMO_VENUE);
-  const adjacent = mission.targetCount === 1 ? countMet : adjCheck.adjacent;
+  const adjacent =
+    mission.targetCount === 1 ? countMet : selectedCount >= 2 && adjCheck.adjacent;
 
   const selectedSections = new Set(
     selectedSeatIds
@@ -117,6 +118,17 @@ export function evaluateRound(input: RoundEvaluationInput): RoundResult {
     feedbackItems.push(
       `Selected ${selectedCount} of ${mission.targetCount} required ${mission.targetCount === 1 ? 'seat' : 'seats'}.`,
     );
+    if (mission.targetCount > 1 && selectedCount === 1) {
+      feedbackItems.push(
+        `A single confirmed seat has no adjacent neighbor pair for a ${mission.targetCount}-seat mission, so Adjacency scores 0/20.`,
+      );
+    }
+  } else if (mission.targetCount === 1) {
+    if (withinBudget) {
+      feedbackItems.push(
+        `Confirmed 1 seat within your $${mission.totalBudget} virtual budget ($${totalCost} total). 1-seat drills have no neighbor requirement, so the 20/20 Adjacency baseline is awarded automatically.`,
+      );
+    }
   } else if (mission.targetCount > 1 && adjacent) {
     if (!withinBudget) {
       feedbackItems.push(
@@ -145,7 +157,7 @@ export function evaluateRound(input: RoundEvaluationInput): RoundResult {
 
   if (countMet && adjacent && !withinBudget && mission.targetCount === 1) {
     feedbackItems.push(
-      `Selected seat ($${totalCost}) exceeds your $${mission.totalBudget} virtual budget.`,
+      `Selected seat ($${totalCost}) exceeds your $${mission.totalBudget} virtual budget. (1-seat drills award the 20/20 Adjacency baseline automatically once count is met.)`,
     );
   }
 

@@ -247,6 +247,57 @@ describe('Dynamic scramble conflicts, selection caps & scoring diagnostics', () 
     expect(backupEval.pivotedToBackup).toBe(true);
     expect(backupEval.score).toBeGreaterThanOrEqual(90);
     expect(backupEval.feedbackItems.some((msg) => msg.includes('pivoted to backup section UP-201'))).toBe(true);
+
+    // Selecting only 1 seat on a 2-seat mission should award 0/20 adjacency points (not 10/20)
+    const singleSeatInTwoSeatMission = evaluateRound({
+      round: {
+        ...customRound,
+        mission: {
+          ...customRound.mission,
+          targetCount: 2,
+          totalBudget: 280,
+          preferredSections: ['LOW-101'],
+          backupSections: ['UP-201'],
+        },
+      },
+      selectedSeatIds: ['LOW-101-R1-S1'],
+      elapsedMs: 5000,
+      invalidClicks: 0,
+      hadSelectionConflict: false,
+      appliedWaveCount: 0,
+      timedOut: false,
+    });
+    expect(singleSeatInTwoSeatMission.passed).toBe(false);
+    expect(singleSeatInTwoSeatMission.adjacent).toBe(false);
+    expect(singleSeatInTwoSeatMission.breakdown.adjacencyPts).toBe(0);
+    expect(
+      singleSeatInTwoSeatMission.feedbackItems.some((msg) => msg.includes('Adjacency scores 0/20')),
+    ).toBe(true);
+
+    // A 1-seat mission explicitly documents auto 20/20 adjacency baseline
+    const oneSeatMissionEval = evaluateRound({
+      round: {
+        ...customRound,
+        mission: {
+          ...customRound.mission,
+          targetCount: 1,
+          totalBudget: 150,
+          preferredSections: ['LOW-101'],
+          backupSections: ['UP-201'],
+        },
+      },
+      selectedSeatIds: ['LOW-101-R1-S1'],
+      elapsedMs: 4000,
+      invalidClicks: 0,
+      hadSelectionConflict: false,
+      appliedWaveCount: 0,
+      timedOut: false,
+    });
+    expect(oneSeatMissionEval.passed).toBe(true);
+    expect(oneSeatMissionEval.breakdown.adjacencyPts).toBe(20);
+    expect(
+      oneSeatMissionEval.feedbackItems.some((msg) => msg.includes('20/20 Adjacency baseline')),
+    ).toBe(true);
   });
 });
 

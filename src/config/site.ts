@@ -2,6 +2,7 @@ export const SITE = {
   brandName: 'StageDrill',
   siteTitle: 'StageDrill',
   baseUrl: 'https://concert-ticket-simulator.pages.dev',
+  contactEmail: 'mayday0064@gmail.com',
   googleSiteVerification: 'wMz2VDeMwD8R6yiCgJIqFD_wM2wSzrSEauzvCtzKHyw',
   disclaimerShort:
     'Independent practice simulator using fictional venue data & virtual budgets. Not affiliated with Ticketmaster, Live Nation, or any ticketing provider.',
@@ -18,6 +19,7 @@ export const NAV_LINKS: readonly NavLink[] = [
   { href: '/guides/ticketmaster-training/', label: 'Training Guide' },
   { href: '/guides/seat-selection-practice/', label: 'Seat Strategy' },
   { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
 ];
 
 export const FOOTER_LINKS: readonly NavLink[] = [
@@ -26,6 +28,7 @@ export const FOOTER_LINKS: readonly NavLink[] = [
   { href: '/guides/ticketmaster-training/', label: 'Ticketmaster Training Guide' },
   { href: '/guides/seat-selection-practice/', label: 'Seat Selection Guide' },
   { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
   { href: '/privacy/', label: 'Privacy' },
   { href: '/terms/', label: 'Terms' },
 ];

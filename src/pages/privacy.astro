@@ -39,9 +39,13 @@ const description =
     </section>
 
     <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
-      <h2 class="section-h2 text-slate-950">Clearing Your Data</h2>
+      <h2 class="section-h2 text-slate-950">Clearing Your Data &amp; Contact</h2>
       <p>
-        You can delete all locally saved simulator data at any time by clearing site data / localStorage in your browser settings.
+        You can delete all locally saved simulator data at any time by clearing site data / localStorage in your browser settings. For privacy questions regarding {SITE.brandName}, email{' '}
+        <a href={`mailto:${SITE.contactEmail}`} class="font-semibold text-sky-700 underline-offset-4 hover:underline">
+          {SITE.contactEmail}
+        </a>{' '}
+        (or see our <a href="/contact/" class="font-semibold text-sky-700 underline-offset-4 hover:underline">Contact page</a>).
       </p>
     </section>
   </article>

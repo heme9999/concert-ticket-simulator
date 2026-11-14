@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { registerCopyInvoker } from '@/lib/clipboard';
-import { generateRound } from '@/lib/generator';
+import { generateRound, getTimeLimitMs } from '@/lib/generator';
 import {
   buildPracticePath,
   generateRandomSeed,
@@ -108,6 +108,13 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   const [result, setResult] = useState<RoundResult | null>(null);
   const [history, setHistory] = useState<PracticeHistoryEntry[]>([]);
   const [resumePromptVisible, setResumePromptVisible] = useState<boolean>(false);
+  const [savedRoundPreview, setSavedRoundPreview] = useState<{
+    mode: GameMode;
+    difficulty: Difficulty;
+    seed: string;
+    selectedCount: number;
+    remainingLabel: string;
+  } | null>(null);
   const [foregroundFocusSec, setForegroundFocusSec] = useState<number | null>(null);
 
   const [zoomTarget, setZoomTarget] = useState<MapZoomTarget>('ALL');
@@ -119,6 +126,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
 
   const clockRef = useRef<MonotonicClockState>(createClockState(0, false));
   const appliedWavesRef = useRef<Set<string>>(new Set());
+  const roundFinishedRef = useRef<boolean>(false);
   const selectedIdsRef = useRef<string[]>(selectedSeatIds);
   const lockedIdsRef = useRef<Set<string>>(lockedSeatIds);
 
@@ -162,7 +170,26 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       (savedActive.phase === 'active' || savedActive.phase === 'paused_visibility') &&
       savedActive.selectedSeatIds.length > 0
     ) {
-      setResumePromptVisible(true);
+      const savedLimitMs = getTimeLimitMs(savedActive.mode, savedActive.difficulty);
+      const remainingMs =
+        savedLimitMs === null ? null : Math.max(0, savedLimitMs - savedActive.elapsedMs);
+      if (remainingMs !== null && remainingMs <= 1000) {
+        saveActiveRound(null, storage);
+      } else {
+        setSavedRoundPreview({
+          mode: savedActive.mode,
+          difficulty: savedActive.difficulty,
+          seed: savedActive.seed,
+          selectedCount: savedActive.selectedSeatIds.length,
+          remainingLabel:
+            savedLimitMs === null
+              ? `${(savedActive.elapsedMs / 1000).toFixed(1)}s elapsed (Untimed)`
+              : `${formatRemainingTime(savedLimitMs, savedActive.elapsedMs)} left`,
+        });
+        setResumePromptVisible(true);
+      }
+    } else if (savedActive) {
+      saveActiveRound(null, storage);
     }
 
     return cleanupCopy;
@@ -181,6 +208,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       setConflictSeatIds(new Set());
       setAppliedWaveIds([]);
       appliedWavesRef.current = new Set();
+      roundFinishedRef.current = false;
       setInvalidClicks(0);
       setHadSelectionConflict(false);
       setResult(null);
@@ -229,6 +257,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       timedOut: boolean,
       finalElapsedMs?: number,
     ) => {
+      roundFinishedRef.current = true;
       const elapsed =
         finalElapsedMs ?? getElapsedMs(clockRef.current, performance.now());
       clockRef.current = pauseClock(clockRef.current, performance.now(), false);
@@ -274,7 +303,11 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
 
   // Save in-progress round snapshot to localStorage for refresh recovery
   useEffect(() => {
-    if (phase === 'active' || phase === 'paused_visibility') {
+    if (phase === 'completed') {
+      saveActiveRound(null, storage);
+      return;
+    }
+    if ((phase === 'active' || phase === 'paused_visibility') && !roundFinishedRef.current) {
       saveActiveRound(
         {
           seed: round.seed,
@@ -424,6 +457,15 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
     const saved = loadActiveRound(storage);
     if (!saved) {
       setResumePromptVisible(false);
+      setSavedRoundPreview(null);
+      return;
+    }
+    const savedLimitMs = getTimeLimitMs(saved.mode, saved.difficulty);
+    if (savedLimitMs !== null && saved.elapsedMs >= savedLimitMs - 1000) {
+      saveActiveRound(null, storage);
+      setResumePromptVisible(false);
+      setSavedRoundPreview(null);
+      resetRoundState(saved.mode, saved.difficulty, saved.seed, false);
       return;
     }
     const targetRound = generateRound({
@@ -431,6 +473,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       difficulty: saved.difficulty,
       seed: saved.seed,
     });
+    roundFinishedRef.current = false;
     setMode(saved.mode);
     setDifficulty(saved.difficulty);
     setSeed(saved.seed);
@@ -448,10 +491,12 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       pausedByVisibility: false,
     };
     setResult(null);
+    setForegroundFocusSec(null);
     setPhase('active');
     setResumePromptVisible(false);
+    setSavedRoundPreview(null);
     setStatusNotice(
-      `Resumed saved drill (${targetRound.mission.title}) with ${saved.selectedSeatIds.length} seat(s) selected.`,
+      `Resumed unfinished ${MODE_META[saved.mode].label} (${DIFFICULTY_META[saved.difficulty].label}) drill · Seed "${saved.seed}" (${saved.selectedSeatIds.length}/${targetRound.mission.targetCount} seats).`,
     );
   };
 
@@ -552,13 +597,8 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
       aria-label="Concert seat selection practice simulator"
       className="w-full rounded-3xl border border-slate-800/80 bg-[#0b0e17] p-3 text-slate-100 shadow-2xl sm:p-5"
     >
-      {/* Hidden source text for Invoker Commands copy button */}
-      <span id="stagedrill-share-url" className="sr-only">
-        {shareUrl}
-      </span>
-
       {/* Top Controls: Mode, Difficulty, Seed & Accessibility */}
-      <div className="mb-3 flex flex-col gap-3 border-b border-white/10 pb-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mb-2 flex flex-col gap-3 border-b border-white/10 pb-3 lg:flex-row lg:items-center lg:justify-between">
         {/* Mode pills */}
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Practice mode">
           {(['quick', 'scramble', 'drill'] as const).map((m) => {
@@ -631,7 +671,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
                 }
               }}
               aria-label="Practice seed"
-              className="w-24 bg-transparent font-mono text-xs font-semibold text-sky-300 focus:outline-none"
+              className="w-40 min-w-[10rem] bg-transparent font-mono text-xs font-semibold text-sky-300 focus:outline-none sm:w-48"
             />
             <button
               type="button"
@@ -671,11 +711,33 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
         </div>
       </div>
 
+      {/* Full Share URL display (wraps cleanly without truncation) */}
+      <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] text-slate-400">
+        <span className="font-semibold text-slate-300">Share URL:</span>
+        <code id="stagedrill-share-url" className="break-all font-mono text-sky-300">
+          {shareUrl}
+        </code>
+      </div>
+
       {/* Saved unfinished round banner */}
       {resumePromptVisible && (
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-sky-400/40 bg-sky-950/50 px-3.5 py-2.5 text-xs text-sky-100">
           <span>
-            You have an unfinished practice drill saved locally. Resume where you left off?
+            {savedRoundPreview ? (
+              <>
+                Unfinished drill saved in localStorage:{' '}
+                <strong>
+                  {MODE_META[savedRoundPreview.mode].label} (
+                  {DIFFICULTY_META[savedRoundPreview.difficulty].label})
+                </strong>{' '}
+                &middot; Seed <code className="text-sky-300">{savedRoundPreview.seed}</code>{' '}
+                &middot; {savedRoundPreview.selectedCount} seat(s) selected &middot;{' '}
+                <strong className="text-white">{savedRoundPreview.remainingLabel}</strong>. Resume
+                this drill or discard it to start fresh?
+              </>
+            ) : (
+              'You have an unfinished practice drill saved locally in localStorage. Resume or discard to start fresh?'
+            )}
           </span>
           <div className="flex items-center gap-2">
             <button
@@ -689,11 +751,12 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
               type="button"
               onClick={() => {
                 setResumePromptVisible(false);
+                setSavedRoundPreview(null);
                 saveActiveRound(null, storage);
               }}
               className="pressable rounded-lg bg-white/10 px-2.5 py-1 font-semibold text-slate-200"
             >
-              Dismiss
+              Discard &amp; Start Fresh
             </button>
           </div>
         </div>
@@ -737,13 +800,19 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
             }`}
           >
             <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              {round.timeLimitMs === null ? 'Clock' : 'Time Left'}
+              {phase === 'completed'
+                ? 'Round Time'
+                : round.timeLimitMs === null
+                  ? 'Clock'
+                  : 'Time Left'}
             </div>
             <div
               data-testid="hud-timer"
               className="tabular-nums mt-0.5 text-sm font-extrabold sm:text-base"
             >
-              {timeString}
+              {phase === 'completed'
+                ? `${(elapsedDisplayMs / 1000).toFixed(1)}s`
+                : timeString}
             </div>
           </div>
 
@@ -950,10 +1019,13 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
                 {result.headline}
               </h2>
               <p className="mt-1 text-xs text-slate-400">
-                Practice Score (Simulation Only — Never Real Ticket Odds) · Seed:{' '}
-                <code className="text-sky-300">{round.seed}</code>
+                Practice Score (Simulation Only — Never Real Ticket Odds) &middot; Seed:{' '}
+                <code className="text-sky-300">{round.seed}</code> &middot; Round Time:{' '}
+                <span className="font-semibold text-slate-200">
+                  {(result.elapsedMs / 1000).toFixed(1)}s
+                </span>
                 {foregroundFocusSec !== null && (
-                  <span> · Active Foreground Time: {foregroundFocusSec}s</span>
+                  <span> &middot; Session Cumulative Foreground: {foregroundFocusSec}s</span>
                 )}
               </p>
             </div>
@@ -990,7 +1062,10 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
           <div className="mt-4 grid grid-cols-2 gap-2 text-xs sm:grid-cols-3 lg:grid-cols-6">
             {[
               ['Seat Count', `${result.breakdown.seatCountPts}/20`],
-              ['Adjacency', `${result.breakdown.adjacencyPts}/20`],
+              [
+                round.mission.targetCount === 1 ? 'Adjacency (1-Seat Auto)' : 'Adjacency',
+                `${result.breakdown.adjacencyPts}/20`,
+              ],
               ['Budget', `${result.breakdown.budgetPts}/20`],
               ['Zone / Pivot', `${result.breakdown.sectionPts}/20`],
               ['Speed', `${result.breakdown.speedPts}/10`],

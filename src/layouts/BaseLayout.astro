@@ -133,7 +133,11 @@ const schemas = structuredData
         </div>
 
         <p class="mt-6 border-t border-slate-100 pt-5 text-[11px] text-slate-500">
-          Demo Arena: Starlight Civic Arena (Fictional Venue). No real ticketing accounts, payment cards, or live inventory are connected.
+          Demo Arena: Starlight Civic Arena (Fictional Venue). No real ticketing accounts, payment cards, or live inventory are connected. Feedback &amp; bug reports:{' '}
+          <a href={`mailto:${SITE.contactEmail}`} class="font-semibold text-slate-700 underline-offset-2 hover:underline">
+            {SITE.contactEmail}
+          </a>{' '}
+          (cannot assist with real ticket orders).
         </p>
       </div>
     </footer>
