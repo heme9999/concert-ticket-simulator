@@ -1,0 +1,355 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'How StageDrill Scoring Works: The 100-Point Breakdown | StageDrill';
+const description =
+  'Every StageDrill round scores out of 100 across six parts: Seat Count, Adjacency, Budget, Zone/Pivot, Speed and Precision. Here is the exact formula, with a worked example.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/guides/scoring-explained/"
+>
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="mb-4 text-xs font-semibold text-slate-500">
+      <a href="/" class="hover:text-slate-900">Home</a>
+      <span class="mx-1.5">/</span>
+      <span class="text-slate-900">Scoring Explained</span>
+    </nav>
+
+    <h1 class="display-h1 text-slate-950">
+      How StageDrill Scoring Works: The 100-Point Breakdown
+    </h1>
+    <p class="mt-4 text-base leading-relaxed text-slate-700">
+      Every StageDrill round ends with a Practice Score out of 100. It is feedback on how you played that drill &mdash; nothing more. It never predicts real ticket odds, queue placement, or checkout success. Six parts make up the score, each with its own rule. Nothing is hidden: here is the exact breakdown.
+    </p>
+
+    <section class="mt-8">
+      <h2 class="section-h2 text-slate-950">The six parts at a glance</h2>
+      <div
+        tabindex="0"
+        role="region"
+        aria-labelledby="parts-table-caption"
+        class="mt-4 max-h-[80vh] overflow-auto rounded-2xl border border-slate-200 bg-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+      >
+        <table class="w-full min-w-[540px] border-separate border-spacing-0 text-left text-sm">
+          <caption id="parts-table-caption" class="sr-only">
+            Six scoring components of the 100-point StageDrill Practice Score
+          </caption>
+          <thead class="sticky top-0 z-10 bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-600">
+            <tr>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Part</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Max</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">
+                What it measures
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Seat Count
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20</td>
+              <td class="px-4 py-3">Did you confirm the required number of seats?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Adjacency
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20</td>
+              <td class="px-4 py-3">Are the seats connected in one row, never across an aisle?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Budget
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20</td>
+              <td class="px-4 py-3">Is the total inside your virtual budget?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Zone / Pivot
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20</td>
+              <td class="px-4 py-3">Are the seats in your target zone, or a clean backup pivot?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Speed
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">10</td>
+              <td class="px-4 py-3">How much of the countdown was left when you finished?</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Precision
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">10</td>
+              <td class="px-4 py-3">Did you click only valid, available seats?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">1. Seat Count &mdash; 20 points</h2>
+      <p>
+        Confirm every seat the mission asks for and you earn the full 20. Confirm fewer and you get partial credit, up to 12 points, in proportion: 1 of 2 seats earns 6, 2 of 4 earns 6, 3 of 4 earns 9. Confirming none earns 0.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">2. Adjacency &mdash; 20 points</h2>
+      <p>
+        For multi-seat missions, connected seats in a single row earn 20 &mdash; but only if the seat count is also met. Connected seats with the count short earn 10. Seats that are not connected earn 0, including the common case of confirming a single seat for a two-or-more-seat mission: one seat has no neighbor, so Adjacency is 0.
+      </p>
+      <p>
+        Three things break adjacency: crossing the center aisle (Seats 4 and 5 are separated by an aisle and are not adjacent), spanning different rows or sections, and leaving an empty gap between seats in a row.
+      </p>
+      <p>
+        One-seat drills are the exception: once the single seat is confirmed, Adjacency is awarded automatically at 20/20, because a one-seat mission has no neighbor requirement.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">3. Budget &mdash; 20 points</h2>
+      <p>
+        A total inside your virtual budget earns 20. A total up to 15% over budget still earns 8 &mdash; close, but over. More than 15% over earns 0, and confirming no seats earns 0. Example: with a $280 budget, a $322 total still earns 8; $323 or more earns 0.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">4. Zone / Pivot &mdash; 20 points</h2>
+      <p>
+        All seats in your target (preferred) zone earn 20. All seats in a backup zone earn 16 &mdash; unless you moved there because the primary zone shifted mid-round, for example when a scramble wave claimed one of your seats. A clean backup pivot after that kind of disruption also earns the full 20. Seats split across zones, or in a zone the mission does not name, earn 0.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">5. Speed &mdash; 10 points</h2>
+      <p>
+        Speed is the smallest slice of the score, and it only counts when the rest of the mission is already complete: right seat count, adjacent, within budget, and finished before time runs out. Speed never rescues an incomplete round.
+      </p>
+      <p>On Untimed difficulty there is no countdown, so Speed is a flat 10. On timed rounds the formula is:</p>
+      <p class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-950">
+        Speed = round(4 + 6 &times; fraction of the countdown remaining)
+      </p>
+      <p>
+        Finishing the instant the round starts would score 10; finishing with almost no time left scores 4. Worked example: Quick Pick on Easy gives you 35 seconds. Finish in 6.3 seconds and 82% of the clock is left, so round(4 + 6 &times; 0.82) = 9.
+      </p>
+      <p>Time limits by mode and difficulty:</p>
+
+      <div
+        tabindex="0"
+        role="region"
+        aria-labelledby="time-limits-caption"
+        class="mt-4 max-h-[80vh] overflow-auto rounded-2xl border border-slate-200 bg-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+      >
+        <table class="w-full min-w-[520px] border-separate border-spacing-0 text-left text-sm">
+          <caption id="time-limits-caption" class="sr-only">
+            Time limits by simulator mode and difficulty level
+          </caption>
+          <thead class="sticky top-0 z-10 bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-600">
+            <tr>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Mode</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Easy</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Hard</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Untimed</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Quick Pick
+              </th>
+              <td class="tabular-nums px-4 py-3">35 seconds</td>
+              <td class="tabular-nums px-4 py-3">18 seconds</td>
+              <td class="px-4 py-3">No limit</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Live Scramble
+              </th>
+              <td class="tabular-nums px-4 py-3">45 seconds</td>
+              <td class="tabular-nums px-4 py-3">22 seconds</td>
+              <td class="px-4 py-3">No limit</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Full Drill
+              </th>
+              <td class="tabular-nums px-4 py-3">48 seconds</td>
+              <td class="tabular-nums px-4 py-3">24 seconds</td>
+              <td class="px-4 py-3">No limit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">6. Precision &mdash; 10 points</h2>
+      <p>
+        You start at 10 and lose 2 points per invalid click. Five or more invalid clicks scores 0. An invalid click is clicking a seat that is unavailable or locked, a seat beyond the 4-seat maximum for a drill, or a seat that does not exist. Clicking a seat you already picked deselects it &mdash; that is not an invalid click.
+      </p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">Worked example: seed arena-101, Quick Pick, Easy</h2>
+      <p>
+        The mission: 2 adjacent seats, max $280 total, target LOW-101 or LOW-102, backup UP-201. The pick: LOW-101 Row 1, Seat 1 + Seat 2, at $135 each &mdash; $270 total &mdash; in 6.3 seconds.
+      </p>
+
+      <div
+        tabindex="0"
+        role="region"
+        aria-labelledby="worked-example-caption"
+        class="mt-4 max-h-[80vh] overflow-auto rounded-2xl border border-slate-200 bg-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+      >
+        <table class="w-full min-w-[520px] border-separate border-spacing-0 text-left text-sm">
+          <caption id="worked-example-caption" class="sr-only">
+            Worked score breakdown for seed arena-101 in Quick Pick Easy mode
+          </caption>
+          <thead class="sticky top-0 z-10 bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-600">
+            <tr>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Part</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Score</th>
+              <th scope="col" class="border-b border-slate-200 bg-slate-50 px-4 py-3">Why</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Seat Count
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20/20</td>
+              <td class="px-4 py-3">2 of 2 seats confirmed</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Adjacency
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20/20</td>
+              <td class="px-4 py-3">Connected seats, same row</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Budget
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20/20</td>
+              <td class="px-4 py-3">$270 is inside the $280 budget</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Zone / Pivot
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">20/20</td>
+              <td class="px-4 py-3">LOW-101 is a target zone</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Speed
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">9/10</td>
+              <td class="px-4 py-3">82% of the 35-second clock left</td>
+            </tr>
+            <tr>
+              <th scope="row" class="sticky left-0 bg-white px-4 py-3 font-bold text-slate-950">
+                Precision
+              </th>
+              <td class="tabular-nums px-4 py-3 font-semibold text-slate-900">10/10</td>
+              <td class="px-4 py-3">0 invalid clicks</td>
+            </tr>
+            <tr class="bg-slate-50 font-bold text-slate-950">
+              <th scope="row" class="sticky left-0 bg-slate-50 px-4 py-3 font-bold text-slate-950">
+                Total
+              </th>
+              <td class="tabular-nums px-4 py-3">99/100</td>
+              <td class="px-4 py-3"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Why not 100? Only Speed: the 6.3 seconds used cost exactly 1 point.</p>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">What &ldquo;Mission Passed&rdquo; means</h2>
+      <p>
+        Passing takes all five at once: the right seat count, adjacent seats, inside budget, in a named zone, before time runs out. Anything short of that gets a headline that names the problem:
+      </p>
+      <ul class="list-disc space-y-2 pl-5">
+        <li>
+          <strong>Practice Complete &mdash; Mission Passed</strong> (or{' '}
+          <strong>Clean Backup Pivot &mdash; Mission Passed</strong> after a successful pivot)
+        </li>
+        <li>
+          <strong>Time Up &mdash; Review &amp; Retry Seed</strong>
+        </li>
+        <li>
+          <strong>Adjacent Seats Found, Over Virtual Budget</strong>
+        </li>
+        <li>
+          <strong>Aisle Split Detected &mdash; Not Adjacent</strong>
+        </li>
+        <li>
+          <strong>Requirements Incomplete &mdash; Review Breakdown</strong>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">How to raise your score</h2>
+      <ul class="list-disc space-y-2 pl-5">
+        <li>
+          Decide your per-ticket cap before the map opens. See{' '}
+          <a href="/guides/seat-selection-practice/" class="font-semibold text-indigo-700 underline">
+            Seat Selection Practice
+          </a>
+          .
+        </li>
+        <li>Click only seats you can actually take. Unavailable seats cost Precision, not just time.</li>
+        <li>
+          If your primary zone tightens mid-round, pivot to a named backup zone instead of grabbing scattered seats. A clean pivot keeps the full 20 for Zone / Pivot.
+        </li>
+        <li>Remember Speed is 10 points out of 100. Getting the seats right matters more than getting them fast.</li>
+      </ul>
+    </section>
+
+    <section class="mt-8 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+      <h2 class="section-h2 text-slate-950">What the score is not</h2>
+      <p>
+        The score is rule-based feedback on a fictional arena with virtual prices. It does not predict or improve real ticket queue placement or checkout outcomes, and StageDrill is not affiliated with Ticketmaster, Live Nation, or any ticketing provider.
+      </p>
+      <p>
+        Ready to test it? Open the{' '}
+        <a href="/practice/" class="font-semibold text-indigo-700 underline">
+          Practice Arena
+        </a>{' '}
+        and run the arena-101 drill yourself &mdash; then check your breakdown against the worked example above.
+      </p>
+    </section>
+
+    <section class="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
+      <h2 class="text-lg font-extrabold text-slate-950">Test the Formula Live</h2>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          href="/practice/?mode=quick&difficulty=easy&seed=arena-101"
+          class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-indigo-500"
+        >
+          Run arena-101 Quick Pick &rarr;
+        </a>
+        <a
+          href="/guides/concert-seat-selection-basics/"
+          class="rounded-xl border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
+        >
+          Read Seat Selection Basics
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

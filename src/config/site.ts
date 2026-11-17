@@ -18,6 +18,8 @@ export const NAV_LINKS: readonly NavLink[] = [
   { href: '/practice/', label: 'Practice Arena' },
   { href: '/guides/ticketmaster-training/', label: 'Training Guide' },
   { href: '/guides/seat-selection-practice/', label: 'Seat Strategy' },
+  { href: '/guides/scoring-explained/', label: 'Scoring' },
+  { href: '/guides/concert-seat-selection-basics/', label: 'Arena Basics' },
   { href: '/about/', label: 'About' },
   { href: '/contact/', label: 'Contact' },
 ];
@@ -27,6 +29,8 @@ export const FOOTER_LINKS: readonly NavLink[] = [
   { href: '/practice/', label: 'Practice Arena' },
   { href: '/guides/ticketmaster-training/', label: 'Ticketmaster Training Guide' },
   { href: '/guides/seat-selection-practice/', label: 'Seat Selection Guide' },
+  { href: '/guides/scoring-explained/', label: 'Scoring Explained' },
+  { href: '/guides/concert-seat-selection-basics/', label: 'Seat Selection Basics' },
   { href: '/about/', label: 'About' },
   { href: '/contact/', label: 'Contact' },
   { href: '/privacy/', label: 'Privacy' },
