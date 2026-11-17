@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="StageDrill concert seat selection practice simulator arena preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0e17"/>
+      <stop offset="100%" stop-color="#131928"/>
+    </linearGradient>
+    <linearGradient id="stageGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="44" y="44" width="1112" height="542" rx="28" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Brand pill -->
+  <rect x="84" y="84" width="48" height="48" rx="14" fill="#1e293b"/>
+  <text x="108" y="115" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="#34d399">SD</text>
+  <text x="148" y="106" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="800" fill="#f8fafc">StageDrill</text>
+  <text x="148" y="129" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="600" fill="#94a3b8">Concert Seat Selection Practice Simulator</text>
+
+  <!-- Main Title -->
+  <text x="84" y="205" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="44" font-weight="900" fill="#ffffff">Train Calm Seat Picking</text>
+  <text x="84" y="255" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="44" font-weight="900" fill="#38bdf8">Before Onsale Pressure.</text>
+  <text x="84" y="302" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" fill="#cbd5e1">Starlight Civic Arena (Fictional Venue) · Deterministic Seeds · 100-Pt Scoring</text>
+
+  <!-- Feature Pills -->
+  <rect x="84" y="338" width="175" height="42" rx="12" fill="#1e1b4b" stroke="#6366f1"/>
+  <text x="171" y="365" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#c7d2fe">Quick Pick · Scramble</text>
+  <rect x="275" y="338" width="185" height="42" rx="12" fill="#064e3b" stroke="#10b981"/>
+  <text x="367" y="365" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#a7f3d0">S4 | AISLE | S5 Check</text>
+  <rect x="476" y="338" width="175" height="42" rx="12" fill="#0c4a6e" stroke="#38bdf8"/>
+  <text x="563" y="365" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="700" fill="#bae6fd">Virtual Budget Caps</text>
+
+  <!-- Mini Arena Visual on Right -->
+  <rect x="700" y="100" width="416" height="420" rx="22" fill="#0b0e17" stroke="#334155" stroke-width="2"/>
+  <rect x="788" y="128" width="240" height="36" rx="10" fill="url(#stageGlow)"/>
+  <text x="908" y="152" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="900" fill="#ffffff">STAGE</text>
+
+  <!-- Floor -->
+  <rect x="740" y="188" width="154" height="82" rx="12" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="817" y="222" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="800" fill="#f8fafc">FL-A Floor West</text>
+  <text x="817" y="246" text-anchor="middle" font-family="monospace" font-size="14" fill="#38bdf8">$195</text>
+
+  <rect x="922" y="188" width="154" height="82" rx="12" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="999" y="222" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="800" fill="#f8fafc">FL-B Floor East</text>
+  <text x="999" y="246" text-anchor="middle" font-family="monospace" font-size="14" fill="#38bdf8">$185</text>
+
+  <!-- Lower Bowl with Selected Highlight -->
+  <rect x="740" y="290" width="154" height="88" rx="12" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="817" y="324" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="800" fill="#ecfdf5">LOW-101 West</text>
+  <text x="817" y="346" text-anchor="middle" font-family="monospace" font-size="14" fill="#6ee7b7">$135 · 2x Picked</text>
+
+  <rect x="922" y="290" width="154" height="88" rx="12" fill="#1e293b" stroke="#64748b"/>
+  <text x="999" y="324" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="800" fill="#f8fafc">LOW-102 East</text>
+  <text x="999" y="346" text-anchor="middle" font-family="monospace" font-size="14" fill="#cbd5e1">$125</text>
+
+  <!-- Center Aisle Badge -->
+  <line x1="908" y1="184" x2="908" y2="486" stroke="#475569" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Upper Terrace -->
+  <rect x="740" y="398" width="336" height="82" rx="12" fill="#1e293b" stroke="#818cf8"/>
+  <text x="908" y="434" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="800" fill="#f8fafc">UP-201 Upper Terrace Center</text>
+  <text x="908" y="458" text-anchor="middle" font-family="monospace" font-size="14" fill="#a5b4fc">$75 · Full Sightline Backup Zone</text>
+
+  <!-- Score Callout Bottom Left -->
+  <rect x="84" y="424" width="568" height="96" rx="16" fill="#111827" stroke="#334155"/>
+  <text x="112" y="462" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700" fill="#94a3b8">WORKED EXAMPLE: SEED arena-101</text>
+  <text x="112" y="494" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="800" fill="#34d399">99/100 Practice Score · $270 / $280 Virtual Budget</text>
+
+  <text x="84" y="562" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#64748b">Independent Practice Simulator · Virtual Demo Data Only · Not Affiliated With Ticketmaster</text>
+</svg>

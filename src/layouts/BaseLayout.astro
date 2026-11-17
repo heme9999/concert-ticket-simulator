@@ -21,6 +21,7 @@ const {
 const baseSite = Astro.site ?? new URL(SITE.baseUrl);
 const normalizedPath = canonicalPath.endsWith('/') ? canonicalPath : `${canonicalPath}/`;
 const canonicalUrl = new URL(normalizedPath, baseSite).toString();
+const ogImageUrl = new URL('/og-image.png', baseSite).toString();
 const schemas = structuredData
   ? Array.isArray(structuredData)
     ? structuredData
@@ -50,9 +51,17 @@ const schemas = structuredData
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={SITE.brandName} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="StageDrill concert seat selection practice simulator arena map and HUD preview"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     {schemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />

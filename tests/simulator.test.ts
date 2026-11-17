@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateRound, verifyRoundSolvability } from '@/lib/generator';
-import { buildPracticePath, createPrng, parsePracticeParams } from '@/lib/prng';
+import { buildPracticePath, createPrng, normalizeSeedTyping, parsePracticeParams, sanitizeSeed } from '@/lib/prng';
 import { applyScrambleWave, toggleSeatSelection } from '@/lib/rules';
 import { evaluateRound } from '@/lib/scoring';
 import {
@@ -92,6 +92,25 @@ describe('Deterministic PRNG, seed replay & URL parameters', () => {
       difficulty: 'easy',
       seed: 'arena-101',
     });
+  });
+
+  it('preserves hyphens while typing character-by-character and accepts 52-char seeds', () => {
+    // Simulating typing "arena-101" one keystroke at a time
+    const steps = ['a', 'ar', 'are', 'aren', 'arena', 'arena-', 'arena-1', 'arena-10', 'arena-101'];
+    for (const step of steps) {
+      expect(normalizeSeedTyping(step)).toBe(step);
+    }
+    const finalSeed = sanitizeSeed(steps[steps.length - 1]);
+    expect(finalSeed).toBe('arena-101');
+    const arenaRound = generateRound({ mode: 'quick', difficulty: 'easy', seed: finalSeed });
+    expect(arenaRound.mission.targetCount).toBe(2);
+    expect(arenaRound.mission.totalBudget).toBe(280);
+
+    // 52-character seed with multiple hyphens is preserved completely (not truncated at 32)
+    const seed52 = 'tour-2026-floor-center-section-row1-seat1-to-4-trial';
+    expect(seed52).toHaveLength(52);
+    expect(normalizeSeedTyping(seed52)).toBe(seed52);
+    expect(sanitizeSeed(seed52)).toBe(seed52);
   });
 });
 

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const title = 'Seat Selection Practice: Budgets, Aisles & Backups';
+const title = 'Seat Selection Practice: Budgets, Aisles & Backups | StageDrill';
 const description =
   'Learn practical strategies for spotting connected concert seats, avoiding center-aisle split traps, setting virtual budgets, and pivoting under time pressure.';
 ---
@@ -30,6 +30,21 @@ const description =
       <p class="text-sm leading-relaxed text-slate-700 sm:text-base">
         Numbered seats frequently run consecutively across a walkway aisle. Even though Seat 4 and Seat 5 differ by 1, a physical aisle sits between them. In StageDrill, every row splits into a left block (Seats 1–4) and a right block (Seats 5–8) separated by a clearly marked <strong>AISLE</strong> corridor:
       </p>
+
+      <figure class="mt-4">
+        <img
+          src="/images/aisle-adjacency-diagram.svg"
+          alt="Adjacency diagram illustrating Seats 1 to 4 on the left block separated by the center aisle from Seats 5 to 8 on the right block"
+          width="880"
+          height="320"
+          fetchpriority="high"
+          decoding="async"
+          class="h-auto w-full rounded-2xl border border-slate-200 shadow-sm"
+        />
+        <figcaption class="mt-2 text-xs text-slate-600">
+          Valid contiguous blocks stay inside S1&ndash;S4 or S5&ndash;S8; pairing Seat 4 with Seat 5 fails the aisle check.
+        </figcaption>
+      </figure>
 
       <div class="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-center text-xs font-bold text-slate-200">
         <div class="mx-auto flex max-w-lg items-center justify-center gap-1.5">

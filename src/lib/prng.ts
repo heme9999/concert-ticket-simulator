@@ -62,15 +62,17 @@ export function createPrng(seed: string): Prng {
   return { next, int, pick, shuffle };
 }
 
-export function sanitizeSeed(raw: string | null | undefined, fallback = 'arena-101'): string {
-  if (!raw) return fallback;
-  const cleaned = raw
-    .trim()
+export function normalizeSeedTyping(raw: string): string {
+  return raw
     .toLowerCase()
     .replace(/[^a-z0-9_-]/g, '-')
     .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 32);
+    .slice(0, 80);
+}
+
+export function sanitizeSeed(raw: string | null | undefined, fallback = 'arena-101'): string {
+  if (!raw) return fallback;
+  const cleaned = normalizeSeedTyping(raw.trim()).replace(/^-|-$/g, '');
   return cleaned || fallback;
 }
 

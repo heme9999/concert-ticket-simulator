@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340" role="img" aria-label="Visual breakdown of StageDrill 100-point Practice Score across six weighted components">
+  <rect width="880" height="340" rx="20" fill="#0b0e17"/>
+  <text x="440" y="40" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">100-Point Practice Score Formula (Rule-Based Breakdown)</text>
+  <text x="440" y="64" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Accuracy &amp; Budget account for 80/100 points · Speed is only a 10-point bonus when valid</text>
+
+  <!-- Stacked proportional bar -->
+  <g font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="800" text-anchor="middle">
+    <rect x="40" y="88" width="160" height="44" rx="8" fill="#4f46e5"/>
+    <text x="120" y="115" font-size="13" fill="#ffffff">Seat Count 20</text>
+
+    <rect x="204" y="88" width="160" height="44" rx="8" fill="#0ea5e9"/>
+    <text x="284" y="115" font-size="13" fill="#082f49">Adjacency 20</text>
+
+    <rect x="368" y="88" width="160" height="44" rx="8" fill="#10b981"/>
+    <text x="448" y="115" font-size="13" fill="#022c22">Budget 20</text>
+
+    <rect x="532" y="88" width="160" height="44" rx="8" fill="#8b5cf6"/>
+    <text x="612" y="115" font-size="13" fill="#ffffff">Zone / Pivot 20</text>
+
+    <rect x="696" y="88" width="70" height="44" rx="8" fill="#f59e0b"/>
+    <text x="731" y="115" font-size="12" fill="#451a03">Spd 10</text>
+
+    <rect x="770" y="88" width="70" height="44" rx="8" fill="#ec4899"/>
+    <text x="805" y="115" font-size="12" fill="#ffffff">Prec 10</text>
+  </g>
+
+  <!-- 6 Detail Cards -->
+  <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+    <rect x="40" y="156" width="256" height="72" rx="12" fill="#1e293b" stroke="#4f46e5"/>
+    <text x="56" y="182" font-size="14" font-weight="800" fill="#e0e7ff">Seat Count (20 pts)</text>
+    <text x="56" y="206" font-size="12" fill="#cbd5e1">Exact target = 20 · Short = up to 12</text>
+
+    <rect x="312" y="156" width="256" height="72" rx="12" fill="#1e293b" stroke="#0ea5e9"/>
+    <text x="328" y="182" font-size="14" font-weight="800" fill="#e0f2fe">Adjacency (20 pts)</text>
+    <text x="328" y="206" font-size="12" fill="#cbd5e1">1 seat on multi-seat mission = 0</text>
+
+    <rect x="584" y="156" width="256" height="72" rx="12" fill="#1e293b" stroke="#10b981"/>
+    <text x="600" y="182" font-size="14" font-weight="800" fill="#d1fae5">Budget (20 pts)</text>
+    <text x="600" y="206" font-size="12" fill="#cbd5e1">Within cap = 20 · ≤15% over = 8</text>
+
+    <rect x="40" y="242" width="256" height="72" rx="12" fill="#1e293b" stroke="#8b5cf6"/>
+    <text x="56" y="268" font-size="14" font-weight="800" fill="#ede9fe">Zone / Pivot (20 pts)</text>
+    <text x="56" y="292" font-size="12" fill="#cbd5e1">Target = 20 · Scramble backup = 20</text>
+
+    <rect x="312" y="242" width="256" height="72" rx="12" fill="#1e293b" stroke="#f59e0b"/>
+    <text x="328" y="268" font-size="14" font-weight="800" fill="#fef3c7">Speed (10 pts)</text>
+    <text x="328" y="292" font-size="12" fill="#cbd5e1">round(4 + 6 × time left %) if valid</text>
+
+    <rect x="584" y="242" width="256" height="72" rx="12" fill="#1e293b" stroke="#ec4899"/>
+    <text x="600" y="268" font-size="14" font-weight="800" fill="#fce7f3">Precision (10 pts)</text>
+    <text x="600" y="292" font-size="12" fill="#cbd5e1">10 minus 2 per invalid click</text>
+  </g>
+</svg>

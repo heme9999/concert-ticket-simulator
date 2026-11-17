@@ -4,6 +4,7 @@ import { generateRound, getTimeLimitMs } from '@/lib/generator';
 import {
   buildPracticePath,
   generateRandomSeed,
+  normalizeSeedTyping,
   parsePracticeParams,
   sanitizeSeed,
 } from '@/lib/prng';
@@ -84,6 +85,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   const [mode, setMode] = useState<GameMode>(initialMode);
   const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
   const [seed, setSeed] = useState<string>(() => sanitizeSeed(initialSeed));
+  const [seedInput, setSeedInput] = useState<string>(() => sanitizeSeed(initialSeed));
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
 
   const round = useMemo(
@@ -101,7 +103,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   const [invalidClicks, setInvalidClicks] = useState<number>(0);
   const [hadSelectionConflict, setHadSelectionConflict] = useState<boolean>(false);
   const [statusNotice, setStatusNotice] = useState<string>(
-    'Select a mode above and tap seats on the map (or press Start Drill) to begin.',
+    'Select a mode above and tap seats on the map (or press Start Practice) to begin.',
   );
   const [waitRemainingMs, setWaitRemainingMs] = useState<number>(round.waitStageMs);
   const [elapsedDisplayMs, setElapsedDisplayMs] = useState<number>(0);
@@ -162,6 +164,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
     setMode(queryParams.mode);
     setDifficulty(queryParams.difficulty);
     setSeed(queryParams.seed);
+    setSeedInput(queryParams.seed);
     setHistory(loadHistory(storage));
 
     const savedActive = loadActiveRound(storage);
@@ -477,6 +480,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
     setMode(saved.mode);
     setDifficulty(saved.difficulty);
     setSeed(saved.seed);
+    setSeedInput(saved.seed);
     setSelectedSeatIds(saved.selectedSeatIds);
     setLockedSeatIds(new Set(saved.lockedSeatIds));
     setConflictSeatIds(new Set(saved.conflictSeatIds));
@@ -552,15 +556,23 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   };
 
   const handleModeSwitch = (nextMode: GameMode) => {
+    const activeSeed = sanitizeSeed(seedInput, 'arena-101');
     setMode(nextMode);
+    setSeed(activeSeed);
+    setSeedInput(activeSeed);
     setResumePromptVisible(false);
-    resetRoundState(nextMode, difficulty, seed, false);
+    setSavedRoundPreview(null);
+    resetRoundState(nextMode, difficulty, activeSeed, false);
   };
 
   const handleDifficultySwitch = (nextDiff: Difficulty) => {
+    const activeSeed = sanitizeSeed(seedInput, 'arena-101');
     setDifficulty(nextDiff);
+    setSeed(activeSeed);
+    setSeedInput(activeSeed);
     setResumePromptVisible(false);
-    resetRoundState(mode, nextDiff, seed, false);
+    setSavedRoundPreview(null);
+    resetRoundState(mode, nextDiff, activeSeed, false);
   };
 
   const handleReplaySameSeed = () => {
@@ -570,6 +582,9 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   const handleRandomSeed = () => {
     const nextSeed = generateRandomSeed();
     setSeed(nextSeed);
+    setSeedInput(nextSeed);
+    setResumePromptVisible(false);
+    setSavedRoundPreview(null);
     resetRoundState(mode, difficulty, nextSeed, false);
   };
 
@@ -659,19 +674,37 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
             <input
               id="seed-input"
               type="text"
-              value={seed}
+              value={seedInput}
+              autoCorrect="off"
+              autoCapitalize="none"
+              spellCheck={false}
               onChange={(e) => {
-                const next = sanitizeSeed(e.target.value, 'arena-101');
-                setSeed(next);
+                const nextInput = normalizeSeedTyping(e.target.value);
+                const nextSeed = sanitizeSeed(nextInput, 'arena-101');
+                setSeedInput(nextInput);
+                setSeed(nextSeed);
+                setResumePromptVisible(false);
+                setSavedRoundPreview(null);
+                resetRoundState(mode, difficulty, nextSeed, false);
               }}
-              onBlur={() => resetRoundState(mode, difficulty, seed, false)}
+              onBlur={() => {
+                const clean = sanitizeSeed(seedInput, 'arena-101');
+                setSeedInput(clean);
+                if (clean !== seed) {
+                  setSeed(clean);
+                  resetRoundState(mode, difficulty, clean, false);
+                }
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  resetRoundState(mode, difficulty, seed, false);
+                  const clean = sanitizeSeed(seedInput, 'arena-101');
+                  setSeedInput(clean);
+                  setSeed(clean);
+                  resetRoundState(mode, difficulty, clean, false);
                 }
               }}
               aria-label="Practice seed"
-              className="w-40 min-w-[10rem] bg-transparent font-mono text-xs font-semibold text-sky-300 focus:outline-none sm:w-48"
+              className="w-44 min-w-[11rem] bg-transparent font-mono text-xs font-semibold text-sky-300 focus:outline-none sm:w-64"
             />
             <button
               type="button"
@@ -876,7 +909,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
             onClick={handleStartPractice}
             className="pressable rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-slate-950 hover:bg-emerald-400"
           >
-            {mode === 'drill' ? 'Start Full Drill →' : 'Start Practice →'}
+            Start Practice →
           </button>
         )}
       </div>
@@ -1097,6 +1130,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
               onClick={() => {
                 const next = generateRandomSeed();
                 setSeed(next);
+                setSeedInput(next);
                 resetRoundState(mode, difficulty, next, true);
               }}
               className="pressable rounded-xl bg-indigo-500 px-4 py-2.5 text-sm font-bold text-white hover:bg-indigo-400"
@@ -1239,6 +1273,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
                   setMode(item.mode);
                   setDifficulty(item.difficulty);
                   setSeed(item.seed);
+                  setSeedInput(item.seed);
                   resetRoundState(item.mode, item.difficulty, item.seed, true);
                 }}
                 className="pressable rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-xs hover:bg-white/10"

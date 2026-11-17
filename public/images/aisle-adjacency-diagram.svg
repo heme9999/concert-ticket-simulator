@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="880" height="320" role="img" aria-label="Adjacency diagram showing left seats S1 to S4 and right seats S5 to S8 split by the center walkway aisle">
+  <rect width="880" height="320" rx="20" fill="#0b0e17"/>
+  <text x="440" y="40" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">Row Adjacency Graph: Why Seat 4 and Seat 5 Are Not Connected</text>
+
+  <!-- Left Valid Group -->
+  <rect x="44" y="74" width="332" height="106" rx="16" fill="#064e3b" fill-opacity="0.45" stroke="#10b981" stroke-width="2"/>
+  <text x="210" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#6ee7b7">Valid 1–4 Seat Runs (Left Block)</text>
+
+  <g font-family="monospace" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">
+    <rect x="64" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="96" y="144">S1</text>
+    <rect x="140" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="172" y="144">S2</text>
+    <rect x="216" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="248" y="144">S3</text>
+    <rect x="292" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="324" y="144">S4</text>
+  </g>
+
+  <!-- Center Walkway Aisle -->
+  <rect x="392" y="74" width="96" height="106" rx="12" fill="#451a03" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="440" y="122" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="900" fill="#fcd34d">CENTER</text>
+  <text x="440" y="142" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="900" fill="#fcd34d">AISLE</text>
+  <text x="440" y="164" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#fbbf24">No edge</text>
+
+  <!-- Right Valid Group -->
+  <rect x="504" y="74" width="332" height="106" rx="16" fill="#064e3b" fill-opacity="0.45" stroke="#10b981" stroke-width="2"/>
+  <text x="670" y="98" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#6ee7b7">Valid 1–4 Seat Runs (Right Block)</text>
+
+  <g font-family="monospace" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">
+    <rect x="524" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="556" y="144">S5</text>
+    <rect x="600" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="632" y="144">S6</text>
+    <rect x="676" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="708" y="144">S7</text>
+    <rect x="752" y="114" width="64" height="48" rx="10" fill="#0ea5e9"/>
+    <text x="784" y="144">S8</text>
+  </g>
+
+  <!-- Bottom Trap Box -->
+  <rect x="150" y="206" width="580" height="84" rx="14" fill="#4c0519" stroke="#f43f5e" stroke-width="2"/>
+  <text x="440" y="238" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="800" fill="#fecdd3">Selecting S4 + S5 (or S3–S6) triggers: Aisle Split Detected</text>
+  <text x="440" y="264" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#fda4af">Result: Adjacency = 0/20 pts · Always verify the walkway before confirming</text>
+</svg>
