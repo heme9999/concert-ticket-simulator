@@ -23,13 +23,68 @@ const webAppSchema = {
     'Transparent rule-based practice scoring and local progress history',
   ],
 };
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Does practicing here improve my real Ticketmaster queue position?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. StageDrill is an independent offline-style UI practice simulator. Real waiting room placement and queue sorting are controlled solely by official ticketing platforms and cannot be trained or influenced by external tools. Practice only improves your own map scanning speed, budget discipline, and error avoidance once a seat map is open.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why did Seats 4 and 5 fail the adjacent check?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'In Starlight Civic Arena, every row has a physical center walkway aisle between Seat 4 and Seat 5. Our explicit adjacency graph checks true seat links rather than raw seat numbers, preventing false consecutive matches across an aisle.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is every generated drill guaranteed to be solvable?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Before any round starts, the generator reserves at least one valid contiguous seat block within your virtual budget and verifies that scheduled Live Scramble waves never lock every valid backup solution.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What happens to the timer if I switch browser tabs?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'If the browser tab becomes hidden during an active timed round, StageDrill immediately pauses the monotonic clock and shows a Resume button when you return, preventing background timer throttling from distorting your run.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you connect to any ticketing accounts or collect payment cards?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Never. StageDrill does not connect to Ticketmaster or any live vendor, requires zero login, and stores no payment information. Only your local settings, practice history, and active drill snapshot are saved in browser localStorage.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How can I replay or share an exact practice scenario?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Every drill is controlled by a deterministic text seed (for example, arena-101). Click Share Seed to copy a direct link to the Practice Arena with your exact mode, difficulty, and seed parameters.',
+      },
+    },
+  ],
+};
 ---
 
 <BaseLayout
   title={title}
   description={description}
   canonicalPath="/"
-  structuredData={webAppSchema}
+  structuredData={[webAppSchema, faqSchema]}
 >
   <!-- Above-the-Fold Hero + Interactive Simulator -->
   <section class="bg-slate-950 pb-10 pt-6 text-white sm:pt-8">
