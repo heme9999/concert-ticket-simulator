@@ -4,7 +4,8 @@ import { generateRound, getTimeLimitMs } from '@/lib/generator';
 import {
   buildPracticePath,
   generateRandomSeed,
-  normalizeSeedTyping,
+  MAX_SEED_LENGTH,
+  normalizeSeed,
   parsePracticeParams,
   sanitizeSeed,
 } from '@/lib/prng';
@@ -86,6 +87,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
   const [seed, setSeed] = useState<string>(() => sanitizeSeed(initialSeed));
   const [seedInput, setSeedInput] = useState<string>(() => sanitizeSeed(initialSeed));
+  const [seedLimitExceeded, setSeedLimitExceeded] = useState<boolean>(false);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
 
   const round = useMemo(
@@ -556,26 +558,41 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
   };
 
   const handleModeSwitch = (nextMode: GameMode) => {
-    const activeSeed = sanitizeSeed(seedInput, 'arena-101');
+    const activeSeed = normalizeSeed(seedInput, { trimEdges: true, fallback: 'arena-101' });
     setMode(nextMode);
     setSeed(activeSeed);
     setSeedInput(activeSeed);
+    setSeedLimitExceeded(false);
     setResumePromptVisible(false);
     setSavedRoundPreview(null);
     resetRoundState(nextMode, difficulty, activeSeed, false);
   };
 
   const handleDifficultySwitch = (nextDiff: Difficulty) => {
-    const activeSeed = sanitizeSeed(seedInput, 'arena-101');
+    const activeSeed = normalizeSeed(seedInput, { trimEdges: true, fallback: 'arena-101' });
     setDifficulty(nextDiff);
     setSeed(activeSeed);
     setSeedInput(activeSeed);
+    setSeedLimitExceeded(false);
     setResumePromptVisible(false);
     setSavedRoundPreview(null);
     resetRoundState(mode, nextDiff, activeSeed, false);
   };
 
+  const handleSeedChange = (rawValue: string) => {
+    const overLimit = rawValue.length > MAX_SEED_LENGTH;
+    setSeedLimitExceeded(overLimit);
+    const nextInput = normalizeSeed(rawValue, { trimEdges: false, fallback: '' });
+    const nextSeed = normalizeSeed(nextInput, { trimEdges: true, fallback: 'arena-101' });
+    setSeedInput(nextInput);
+    setSeed(nextSeed);
+    setResumePromptVisible(false);
+    setSavedRoundPreview(null);
+    resetRoundState(mode, difficulty, nextSeed, false);
+  };
+
   const handleReplaySameSeed = () => {
+    setSeedLimitExceeded(false);
     resetRoundState(mode, difficulty, seed, true);
   };
 
@@ -583,6 +600,7 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
     const nextSeed = generateRandomSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
+    setSeedLimitExceeded(false);
     setResumePromptVisible(false);
     setSavedRoundPreview(null);
     resetRoundState(mode, difficulty, nextSeed, false);
@@ -678,17 +696,10 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
               autoCorrect="off"
               autoCapitalize="none"
               spellCheck={false}
-              onChange={(e) => {
-                const nextInput = normalizeSeedTyping(e.target.value);
-                const nextSeed = sanitizeSeed(nextInput, 'arena-101');
-                setSeedInput(nextInput);
-                setSeed(nextSeed);
-                setResumePromptVisible(false);
-                setSavedRoundPreview(null);
-                resetRoundState(mode, difficulty, nextSeed, false);
-              }}
+              aria-invalid={seedLimitExceeded ? true : undefined}
+              onChange={(e) => handleSeedChange(e.target.value)}
               onBlur={() => {
-                const clean = sanitizeSeed(seedInput, 'arena-101');
+                const clean = normalizeSeed(seedInput, { trimEdges: true, fallback: 'arena-101' });
                 setSeedInput(clean);
                 if (clean !== seed) {
                   setSeed(clean);
@@ -697,15 +708,24 @@ export const SimulatorApp: React.FC<SimulatorAppProps> = ({
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  const clean = sanitizeSeed(seedInput, 'arena-101');
+                  const clean = normalizeSeed(seedInput, { trimEdges: true, fallback: 'arena-101' });
                   setSeedInput(clean);
                   setSeed(clean);
+                  setSeedLimitExceeded(false);
                   resetRoundState(mode, difficulty, clean, false);
                 }
               }}
-              aria-label="Practice seed"
+              aria-label={`Practice seed (up to ${MAX_SEED_LENGTH} characters)`}
               className="w-44 min-w-[11rem] bg-transparent font-mono text-xs font-semibold text-sky-300 focus:outline-none sm:w-64"
             />
+            {seedLimitExceeded && (
+              <span
+                role="status"
+                className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-amber-200"
+              >
+                Max {MAX_SEED_LENGTH} chars
+              </span>
+            )}
             <button
               type="button"
               onClick={handleRandomSeed}

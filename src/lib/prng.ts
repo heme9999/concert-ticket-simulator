@@ -62,18 +62,35 @@ export function createPrng(seed: string): Prng {
   return { next, int, pick, shuffle };
 }
 
-export function normalizeSeedTyping(raw: string): string {
-  return raw
+export const MAX_SEED_LENGTH = 128;
+
+/**
+ * Single unified seed normalizer shared by #seed-input and URL query parameters.
+ * Preserves hyphens and supports up to MAX_SEED_LENGTH characters without silent truncation.
+ */
+export function normalizeSeed(
+  raw: string | null | undefined,
+  options?: { trimEdges?: boolean; fallback?: string },
+): string {
+  const trimEdges = options?.trimEdges ?? true;
+  const fallback = options?.fallback ?? 'arena-101';
+  if (!raw) return trimEdges ? fallback : '';
+  const normalized = raw
     .toLowerCase()
     .replace(/[^a-z0-9_-]/g, '-')
     .replace(/-+/g, '-')
-    .slice(0, 80);
+    .slice(0, MAX_SEED_LENGTH);
+  if (!trimEdges) return normalized;
+  const trimmed = normalized.trim().replace(/^-|-$/g, '');
+  return trimmed || fallback;
+}
+
+export function normalizeSeedTyping(raw: string): string {
+  return normalizeSeed(raw, { trimEdges: false, fallback: '' });
 }
 
 export function sanitizeSeed(raw: string | null | undefined, fallback = 'arena-101'): string {
-  if (!raw) return fallback;
-  const cleaned = normalizeSeedTyping(raw.trim()).replace(/^-|-$/g, '');
-  return cleaned || fallback;
+  return normalizeSeed(raw?.trim(), { trimEdges: true, fallback });
 }
 
 export function generateRandomSeed(): string {
